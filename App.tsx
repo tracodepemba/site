@@ -7,17 +7,14 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import RotatingBanner from './components/RotatingBanner';
 import ProductGrid from './components/ProductGrid';
 import About from './components/About';
-import Journal from './components/Journal';
 import FAQ from './components/FAQ';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import ProductDetail from './components/ProductDetail';
-import JournalDetail from './components/JournalDetail';
 import AdminArea from './components/AdminArea';
-import { Product, JournalArticle, ViewState, LandingConfig } from './types';
+import { Product, ViewState, LandingConfig } from './types';
 import { DEFAULT_LANDING_CONFIG } from './constants';
 
 function App() {
@@ -130,17 +127,11 @@ function App() {
         {view.type === 'home' && (
           <>
             <Hero config={landingConfig.hero} />
-            <RotatingBanner slides={landingConfig.bannerSlides} />
             <ProductGrid onProductClick={(p) => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 setView({ type: 'product', product: p });
             }} />
-            <About config={landingConfig.about} />
-            <Journal onArticleClick={(a) => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                setView({ type: 'journal', article: a });
-            }} />
-            <FAQ items={landingConfig.faqs} />
+            <About config={landingConfig.about} />            <FAQ items={landingConfig.faqs} />
             <ContactForm />
           </>
         )}
@@ -154,21 +145,5 @@ function App() {
             }}
           />
         )}
-
-        {view.type === 'journal' && (
-          <JournalDetail 
-            article={view.article} 
-            onBack={() => {
-              setView({ type: 'home' });
-              setTimeout(() => scrollToSection('journal'), 50);
-            }}
-          />
-        )}
-      </main>
-
-      <Footer onLinkClick={handleNavClick} />
-    </div>
-  );
-}
 
 export default App;

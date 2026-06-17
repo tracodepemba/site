@@ -20,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
 
   return (
     <>
-      <nav className="sticky top-0 bg-white py-6 border-b border-brandSoftBlue/10 z-50">
+      <nav className="sticky top-0 bg-white/95 backdrop-blur-sm py-4 border-b border-brandSoftBlue/10 z-50">
         <div className="max-w-[1800px] mx-auto px-8 flex items-center justify-between">
           {/* Logo - Styled identically to the sharp serif display mark in the attached image */}
           <a 
@@ -42,14 +42,14 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
           
           {/* Center Links - Desktop - Montserrat, extra spacing, delicate, size smaller */}
           <div className="hidden md:flex items-center gap-10 text-[11px] font-medium tracking-[0.2em] uppercase text-brandPrussian/80">
-            <a href="#products" onClick={(e) => handleLinkClick(e, 'products')} className="hover:text-brandRed transition-colors">Coleções</a>
-            <a href="#about" onClick={(e) => handleLinkClick(e, 'about')} className="hover:text-brandRed transition-colors">Sobre Nós</a>
-            <a href="#journal" onClick={(e) => handleLinkClick(e, 'journal')} className="hover:text-brandRed transition-colors">Fundamento</a>
+            <a href="#products" onClick={(e) => handleLinkClick(e, 'products')} className="hover:text-brandRed transition-colors">Coleção</a>
+            <a href="#about" onClick={(e) => handleLinkClick(e, 'about')} className="hover:text-brandRed transition-colors">Manifesto</a>
+            <a href="#faq" onClick={(e) => handleLinkClick(e, 'faq')} className="hover:text-brandRed transition-colors">FAQ</a>
             <a href="#contact" onClick={(e) => handleLinkClick(e, 'contact')} className="hover:text-brandRed transition-colors">Contato</a>
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-6 z-50 relative text-brandPrussian">
+          <div className="flex items-center gap-6 z-50 relative text-brandPrussian"><a href="https://umapenca.com/pemba" target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex px-5 py-2 bg-brandRed text-brandCream text-[10px] uppercase tracking-[0.18em] font-semibold">Loja Oficial</a>
             {/* Mobile Menu Toggle */}
             <button 
               className="block md:hidden focus:outline-none text-brandPrussian"
@@ -74,9 +74,9 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
           mobileMenuOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-10 pointer-events-none'
       }`}>
           <div className="flex flex-col items-center space-y-8 text-sm font-medium tracking-[0.2em] uppercase text-brandPrussian">
-            <a href="#products" onClick={(e) => handleLinkClick(e, 'products')} className="hover:text-brandRed transition-colors">Coleções</a>
-            <a href="#about" onClick={(e) => handleLinkClick(e, 'about')} className="hover:text-brandRed transition-colors">Sobre Nós</a>
-            <a href="#journal" onClick={(e) => handleLinkClick(e, 'journal')} className="hover:text-brandRed transition-colors">Fundamento</a>
+            <a href="#products" onClick={(e) => handleLinkClick(e, 'products')} className="hover:text-brandRed transition-colors">Coleção</a>
+            <a href="#about" onClick={(e) => handleLinkClick(e, 'about')} className="hover:text-brandRed transition-colors">Manifesto</a>
+            <a href="#faq" onClick={(e) => handleLinkClick(e, 'faq')} className="hover:text-brandRed transition-colors">FAQ</a>
             <a href="#contact" onClick={(e) => handleLinkClick(e, 'contact')} className="hover:text-brandRed transition-colors">Contato</a>
           </div>
       </div>

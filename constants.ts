@@ -29,7 +29,7 @@ export const PRODUCTS: Product[] = [
     description: 'Um abraço caloroso feito de algodão robusto com grafia minimalista do terço e contas sagradas.',
     longDescription: 'Inspirado na doçura, na paciência infinita e no colo acolhedor dos Pretos Velhos. O design discreto traz a representação gráfica de um terço de contas de lágrimas-de-nossa-senhora, lembrando que a verdadeira sabedoria reside no tempo, no silêncio e no respeito. Estrutura encorpada para a rua.',
     price: 289,
-    category: 'Guias e Entidades',
+    category: 'Entidades',
     imageUrl: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=1000',
     gallery: [
       'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=1000',
@@ -170,11 +170,11 @@ export const ACCENT_COLOR = 'amber-800';
 
 export const DEFAULT_LANDING_CONFIG: LandingConfig = {
   hero: {
-    badge: "Minimalismo Sagrado — Do terreiro ao mundo",
+    badge: "Do terreiro ao mundo",
     title: "A Umbanda tem",
     highlightWord: "forma.",
-    subtitle: "O fundamento, na sua forma mais essencial. Vestuário com respeito, precisão e pertencimento.",
-    buttonText: "Descobrir Coleção"
+    subtitle: "Peças inspiradas nos fundamentos da Umbanda. Criadas com respeito, significado e identidade.",
+    buttonText: "Ver Coleção"
   },
   bannerSlides: [
     {

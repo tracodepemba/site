@@ -81,7 +81,7 @@ const Footer: React.FC<FooterProps> = ({ onLinkClick }) => {
 
       <div className="max-w-[1800px] mx-auto mt-20 pt-8 border-t border-brandSoftBlue/15 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-[0.2em] text-brandGraphite/50">
         <p>© {new Date().getFullYear()} Traço de Pemba — Do terreiro ao mundo.</p>
-        <p>Criado com amor & fé</p>
+        <p>O fundamento, na sua forma mais essencial.</p>
       </div>
     </footer>
   );
