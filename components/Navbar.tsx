@@ -30,9 +30,11 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
             }}
             className="z-50 relative focus:outline-none block"
           >
-            <span className="font-serif text-lg md:text-xl tracking-[0.15em] uppercase text-brandPrussian">
-              Traço de Pemba
-            </span>
+            <img
+    src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781784332/TdP_type_noslogan_z6wirk.png"
+    alt="Traço de Pemba"
+    className="h-10 md:h-12 w-auto object-contain"
+  />
           </a>
 
           {/* Links centrais - Desktop */}
