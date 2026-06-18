@@ -12,7 +12,7 @@ export interface Product {
   description: string;
   longDescription?: string;
   price: number;
-  category: 'Orixás' | 'Guias e Entidades' | 'Fundamento';
+  category: 'Orixás' | 'Guias & Entidades' | 'Saudação' | 'Fundamento';
   imageUrl: string;
   gallery?: string[];
   features: string[];
@@ -24,7 +24,7 @@ export interface JournalArticle {
   date: string;
   excerpt: string;
   image: string;
-  content: React.ReactNode; // Allowing JSX for rich formatting/poems
+  content: React.ReactNode; // Permite JSX para formatação rica
 }
 
 export enum LoadingState {
@@ -34,7 +34,7 @@ export enum LoadingState {
   SUCCESS = 'SUCCESS'
 }
 
-export type ViewState = 
+export type ViewState =
   | { type: 'home' }
   | { type: 'product', product: Product }
   | { type: 'journal', article: JournalArticle }
@@ -76,4 +76,3 @@ export interface LandingConfig {
   };
   faqs: FAQItem[];
 }
-

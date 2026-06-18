@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Traço de Pemba | O fundamento, na sua forma mais essencial</title>
-    <meta name="description" content="Aura - Premium warm minimalist electronics" />
+    <meta name="description" content="Traço de Pemba — marca brasileira de vestuário enraizada na cultura e na espiritualidade da Umbanda. Minimalismo Sagrado, fundamento e design com significado." />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -27,23 +27,22 @@
     </script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap');
-      
+
       html {
         scroll-behavior: smooth;
-        scroll-padding-top: 112px; /* Offset for sticky header and elegant spacing */
+        scroll-padding-top: 112px; /* Offset para o header fixo */
       }
 
       body {
         font-family: 'Montserrat', sans-serif;
-        background-color: #FFFFFF; /* Pure white background */
-        color: #252726; /* Brand graphite text */
+        background-color: #FFFFFF;
+        color: #252726;
       }
-      
+
       h1, h2, h3, h4, .font-serif {
         font-family: 'Playfair Display', serif;
       }
 
-      /* Hide scrollbar for clean aesthetic in horizontal scrolls if any */
       .no-scrollbar::-webkit-scrollbar {
         display: none;
       }
@@ -60,24 +59,23 @@
       .animate-fade-in-up {
         animation: fade-in-up 1s cubic-bezier(0.2, 1, 0.3, 1) forwards;
       }
-      
+
       .animate-delay-200 { animation-delay: 0.2s; }
       .animate-delay-400 { animation-delay: 0.4s; }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.29.0",
-    "react/": "https://esm.sh/react@^19.2.0/",
-    "react": "https://esm.sh/react@^19.2.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.0/"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
+    <script type="importmap">
+    {
+      "imports": {
+        "react/": "https://esm.sh/react@^19.2.0/",
+        "react": "https://esm.sh/react@^19.2.0",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.0/"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="/index.css">
+  </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>
