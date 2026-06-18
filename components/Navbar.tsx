@@ -48,7 +48,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
           {/* Ações à direita */}
           <div className="flex items-center gap-6 z-50 relative text-brandPrussian">
             <a
-              href="#products"
+              href="https://umapenca.com/pemba/"
               onClick={(e) => handleLinkClick(e, 'products')}
               className="hidden md:inline-flex px-5 py-2 bg-brandRed text-brandCream text-[10px] uppercase tracking-[0.18em] font-semibold"
             >
