@@ -16,8 +16,6 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
 
   const [newFaqQuestion, setNewFaqQuestion] = useState('');
   const [newFaqAnswer, setNewFaqAnswer] = useState('');
-  
-  const [draggedFaqId, setDraggedFaqId] = useState<string | null>(null);
 
   const handleSave = () => {
     onSave(tempConfig);
@@ -63,55 +61,6 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
       ...tempConfig,
       faqs: tempConfig.faqs.map(f => f.id === id ? { ...f, [field]: value } : f)
     });
-  };
-
-  const moveFAQ = (id: string, direction: 'up' | 'down') => {
-    const currentIndex = tempConfig.faqs.findIndex(f => f.id === id);
-    if (currentIndex === -1) return;
-
-    const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-    if (newIndex < 0 || newIndex >= tempConfig.faqs.length) return;
-
-    const newFaqs = [...tempConfig.faqs];
-    [newFaqs[currentIndex], newFaqs[newIndex]] = [newFaqs[newIndex], newFaqs[currentIndex]];
-
-    setTempConfig({
-      ...tempConfig,
-      faqs: newFaqs
-    });
-  };
-
-  const handleFaqDragStart = (id: string) => {
-    setDraggedFaqId(id);
-  };
-
-  const handleFaqDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const handleFaqDrop = (targetId: string) => {
-    if (!draggedFaqId || draggedFaqId === targetId) {
-      setDraggedFaqId(null);
-      return;
-    }
-
-    const draggedIndex = tempConfig.faqs.findIndex(f => f.id === draggedFaqId);
-    const targetIndex = tempConfig.faqs.findIndex(f => f.id === targetId);
-
-    if (draggedIndex === -1 || targetIndex === -1) {
-      setDraggedFaqId(null);
-      return;
-    }
-
-    const newFaqs = [...tempConfig.faqs];
-    [newFaqs[draggedIndex], newFaqs[targetIndex]] = [newFaqs[targetIndex], newFaqs[draggedIndex]];
-
-    setTempConfig({
-      ...tempConfig,
-      faqs: newFaqs
-    });
-
-    setDraggedFaqId(null);
   };
 
   const updateHeroField = (field: keyof LandingConfig['hero'], value: string) => {
@@ -406,10 +355,39 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
                   Imagens da Seção "Sobre"
                 </h2>
                 <p className="text-xs text-slate-500 font-light max-w-2xl leading-relaxed mb-6">
-                  Edite as imagens de fundo das seções de filosofia (Fundamento e Qualidade).
+                  Edite as imagens das seções: Introdução, Bloco 1 (Fundamento) e Bloco 2 (Qualidade).
                 </p>
 
                 <div className="space-y-8">
+                  {/* Imagem Introdução */}
+                  <div className="border border-slate-200 bg-slate-50/50 p-6">
+                    <h3 className="text-sm font-bold text-brandPrussian uppercase tracking-wider mb-4">
+                      Imagem — Introdução
+                    </h3>
+                    <div className="flex flex-col md:flex-row gap-6 items-start">
+                      <div className="w-full md:w-48 h-32 bg-slate-200 overflow-hidden border border-slate-200 shrink-0">
+                        <img
+                          src={tempConfig.about.aboutImage || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=1200'}
+                          alt="Imagem da Introdução"
+                          className="w-full h-full object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                      <div className="flex-1 flex flex-col gap-2 w-full">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-brandPrussian">
+                          URL da Imagem
+                        </label>
+                        <input
+                          type="url"
+                          value={tempConfig.about.aboutImage || ''}
+                          onChange={(e) => updateAboutField('aboutImage', e.target.value)}
+                          placeholder="Cole o link de uma imagem"
+                          className="border border-slate-200 p-3 text-xs font-mono tracking-wide focus:border-brandPrussian outline-none transition-colors"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Imagem Seção 2 - Fundamento */}
                   <div className="border border-slate-200 bg-slate-50/50 p-6">
                     <h3 className="text-sm font-bold text-brandPrussian uppercase tracking-wider mb-4">
@@ -430,11 +408,8 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
                         </label>
                         <input
                           type="url"
-                          value={tempConfig.about.section2Image || 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=1200'}
-                          onChange={(e) => setTempConfig({
-                            ...tempConfig,
-                            about: { ...tempConfig.about, section2Image: e.target.value as any }
-                          })}
+                          value={tempConfig.about.section2Image || ''}
+                          onChange={(e) => updateAboutField('section2Image', e.target.value)}
                           placeholder="Cole o link de uma imagem"
                           className="border border-slate-200 p-3 text-xs font-mono tracking-wide focus:border-brandPrussian outline-none transition-colors"
                         />
@@ -450,7 +425,7 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
                     <div className="flex flex-col md:flex-row gap-6 items-start">
                       <div className="w-full md:w-48 h-32 bg-slate-200 overflow-hidden border border-slate-200 shrink-0">
                         <img
-                          src={tempConfig.about.section3Image || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=1200'}
+                          src={tempConfig.about.section3Image || 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200'}
                           alt="Imagem do Bloco de Qualidade"
                           className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"
@@ -462,11 +437,8 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
                         </label>
                         <input
                           type="url"
-                          value={tempConfig.about.section3Image || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=1200'}
-                          onChange={(e) => setTempConfig({
-                            ...tempConfig,
-                            about: { ...tempConfig.about, section3Image: e.target.value as any }
-                          })}
+                          value={tempConfig.about.section3Image || ''}
+                          onChange={(e) => updateAboutField('section3Image', e.target.value)}
                           placeholder="Cole o link de uma imagem"
                           className="border border-slate-200 p-3 text-xs font-mono tracking-wide focus:border-brandPrussian outline-none transition-colors"
                         />
@@ -611,56 +583,22 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
                   Gerenciar FAQ
                 </h2>
                 <p className="text-xs text-slate-500 font-light max-w-2xl leading-relaxed mb-6">
-                  Adicione, remova, edite ou reorganize as perguntas e respostas exibidas em forma de acordeão. Você pode arrastar para reorganizar ou usar os botões de seta.
+                  Adicione, remova ou edite as perguntas e respostas exibidas em forma de acordeão.
                 </p>
 
-                <div className="space-y-4 max-w-3xl">
+                <div className="space-y-6 max-w-3xl">
                   {tempConfig.faqs.map((faq, index) => (
-                    <div
-                      key={faq.id}
-                      draggable
-                      onDragStart={() => handleFaqDragStart(faq.id)}
-                      onDragOver={handleFaqDragOver}
-                      onDrop={() => handleFaqDrop(faq.id)}
-                      className={`border border-slate-200 bg-slate-50/50 p-5 space-y-4 cursor-grab active:cursor-grabbing transition-all ${
-                        draggedFaqId === faq.id ? 'opacity-50 bg-slate-100' : ''
-                      }`}
-                    >
+                    <div key={faq.id} className="border border-slate-200 bg-slate-50/50 p-5 space-y-4">
                       <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                        <div className="flex items-center gap-3">
-                          <span className="text-slate-300 select-none">⋮⋮</span>
-                          <span className="text-[10px] font-bold tracking-wider uppercase text-slate-400">
-                            Pergunta #{index + 1}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => moveFAQ(faq.id, 'up')}
-                            disabled={index === 0}
-                            className="p-1.5 hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed rounded transition-colors"
-                            title="Mover para cima"
-                          >
-                            <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                            </svg>
-                          </button>
-                          <button
-                            onClick={() => moveFAQ(faq.id, 'down')}
-                            disabled={index === tempConfig.faqs.length - 1}
-                            className="p-1.5 hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed rounded transition-colors"
-                            title="Mover para baixo"
-                          >
-                            <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                            </svg>
-                          </button>
-                          <button
-                            onClick={() => removeFAQ(faq.id)}
-                            className="text-[10px] text-brandRed tracking-wide uppercase hover:underline font-semibold"
-                          >
-                            Excluir
-                          </button>
-                        </div>
+                        <span className="text-[10px] font-bold tracking-wider uppercase text-slate-400">
+                          Pergunta #{index + 1}
+                        </span>
+                        <button
+                          onClick={() => removeFAQ(faq.id)}
+                          className="text-[10px] text-brandRed tracking-wide uppercase hover:underline font-semibold"
+                        >
+                          Excluir
+                        </button>
                       </div>
 
                       <div className="space-y-3">

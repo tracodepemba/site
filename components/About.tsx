@@ -29,7 +29,7 @@ const About: React.FC<AboutProps> = ({ config }) => {
             {config?.paragraph2}
           </p>
           <img
-            src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=1200"
+            src={config?.aboutImage || "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=1200"}
             alt="Traço de Pemba"
             className="w-full h-[400px] object-cover grayscale contrast-[0.9] brightness-110 mt-12"
             referrerPolicy="no-referrer"
@@ -44,7 +44,7 @@ const About: React.FC<AboutProps> = ({ config }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
         <div className="order-2 lg:order-1 relative h-[500px] lg:h-auto overflow-hidden group">
           <img
-            src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=1200"
+            src={config?.section2Image || "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=1200"}
             alt="Textura"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
             referrerPolicy="no-referrer"
@@ -77,7 +77,7 @@ const About: React.FC<AboutProps> = ({ config }) => {
         </div>
         <div className="relative h-[500px] lg:h-auto overflow-hidden group">
           <img
-            src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200"
+            src={config?.section3Image || "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200"}
             alt="Tecidos naturais"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105 brightness-90"
             referrerPolicy="no-referrer"
