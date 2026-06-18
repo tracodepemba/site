@@ -24,7 +24,7 @@ const Hero: React.FC<HeroProps> = ({ config, onShopClick }) => {
       {/* Fundo */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=2000&q=80"
+          src={config.imageUrl}
           alt="Traço de Pemba"
           className="w-full h-full object-cover opacity-30"
           referrerPolicy="no-referrer"

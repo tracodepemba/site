@@ -12,15 +12,22 @@ const categories = ['Todas', 'Orixás', 'Guias & Entidades', 'Saudação', 'Fund
 
 interface ProductGridProps {
   onProductClick: (product: Product) => void;
+  productImages?: Record<string, string>;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ onProductClick }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ onProductClick, productImages = {} }) => {
   const [activeCategory, setActiveCategory] = useState('Todas');
 
+  const productsWithOverrides = useMemo(() => {
+    return PRODUCTS.map(p =>
+      productImages[p.id] ? { ...p, imageUrl: productImages[p.id] } : p
+    );
+  }, [productImages]);
+
   const filteredProducts = useMemo(() => {
-    if (activeCategory === 'Todas') return PRODUCTS;
-    return PRODUCTS.filter(p => p.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === 'Todas') return productsWithOverrides;
+    return productsWithOverrides.filter(p => p.category === activeCategory);
+  }, [activeCategory, productsWithOverrides]);
 
   return (
     <section id="products" className="py-20 md:py-28 px-6 md:px-12 bg-white">

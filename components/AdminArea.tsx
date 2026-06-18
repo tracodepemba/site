@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LandingConfig, BannerSlide, FAQItem } from '../types';
+import { PRODUCTS } from '../constants';
 
 interface AdminAreaProps {
   config: LandingConfig;
@@ -9,7 +10,7 @@ interface AdminAreaProps {
 }
 
 const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }) => {
-  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'faq'>('hero');
+  const [activeTab, setActiveTab] = useState<'hero' | 'images' | 'about' | 'faq'>('hero');
   const [tempConfig, setTempConfig] = useState<LandingConfig>(JSON.parse(JSON.stringify(config)));
   const [saveSuccess, setSaveSuccess] = useState(false);
 
@@ -76,6 +77,28 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
     });
   };
 
+  // Sobrescreve a imagem de um produto específico pelo seu id
+  const updateProductImage = (productId: string, url: string) => {
+    setTempConfig({
+      ...tempConfig,
+      productImages: { ...(tempConfig.productImages || {}), [productId]: url }
+    });
+  };
+
+  // Remove a sobrescrita, voltando a usar a imagem original do produto
+  const resetProductImage = (productId: string) => {
+    const updated = { ...(tempConfig.productImages || {}) };
+    delete updated[productId];
+    setTempConfig({
+      ...tempConfig,
+      productImages: updated
+    });
+  };
+
+  const getProductImage = (productId: string, fallback: string) => {
+    return (tempConfig.productImages && tempConfig.productImages[productId]) || fallback;
+  };
+
   return (
     <div className="bg-slate-50 min-h-screen py-12 px-6">
       <div className="max-w-6xl mx-auto bg-white border border-slate-200/80 shadow-md">
@@ -119,6 +142,14 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
               }`}
             >
               Capa / Hero
+            </button>
+            <button
+              onClick={() => setActiveTab('images')}
+              className={`py-2 px-4 text-xs font-semibold tracking-wider uppercase transition-colors rounded-none ${
+                activeTab === 'images' ? 'border-b-2 border-brandPrussian text-brandPrussian' : 'text-slate-500 hover:text-brandPrussian'
+              }`}
+            >
+              Imagens
             </button>
             <button
               onClick={() => setActiveTab('about')}
@@ -217,6 +248,104 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
                     onChange={(e) => updateHeroField('buttonText', e.target.value)}
                     className="border border-slate-200 p-3 text-xs tracking-wide focus:border-brandPrussian outline-none transition-colors w-1/2"
                   />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'images' && (
+            <div className="space-y-10 max-w-5xl">
+
+              {/* Imagem do Hero */}
+              <div>
+                <h2 className="text-lg font-serif text-brandPrussian mb-4 pb-2 border-b border-slate-100">
+                  Imagem de Fundo do Cabeçalho (Hero)
+                </h2>
+                <p className="text-xs text-slate-500 font-light max-w-2xl leading-relaxed mb-6">
+                  Esta é a imagem de fundo exibida na primeira seção do site, logo abaixo do menu.
+                </p>
+
+                <div className="flex flex-col md:flex-row gap-6 items-start">
+                  <div className="w-full md:w-64 h-40 bg-slate-200 overflow-hidden border border-slate-200 shrink-0">
+                    <img
+                      src={tempConfig.hero.imageUrl}
+                      alt="Pré-visualização do Hero"
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <div className="flex-1 flex flex-col gap-2 w-full">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-brandPrussian">
+                      URL da Imagem
+                    </label>
+                    <input
+                      type="url"
+                      value={tempConfig.hero.imageUrl}
+                      onChange={(e) => updateHeroField('imageUrl', e.target.value)}
+                      placeholder="Cole o link de uma imagem (Unsplash, Imgur, etc.)"
+                      className="border border-slate-200 p-3 text-xs font-mono tracking-wide focus:border-brandPrussian outline-none transition-colors"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Imagens dos Produtos */}
+              <div className="border-t border-slate-100 pt-8">
+                <h2 className="text-lg font-serif text-brandPrussian mb-4 pb-2 border-b border-slate-100">
+                  Imagens dos Produtos
+                </h2>
+                <p className="text-xs text-slate-500 font-light max-w-2xl leading-relaxed mb-6">
+                  Substitua a imagem de qualquer peça da coleção. A alteração vale tanto para a vitrine quanto para a página do produto.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {PRODUCTS.map((product) => {
+                    const currentImage = getProductImage(product.id, product.imageUrl);
+                    const isOverridden = Boolean(tempConfig.productImages && tempConfig.productImages[product.id]);
+                    return (
+                      <div key={product.id} className="border border-slate-200 bg-slate-50/50 p-4 flex flex-col gap-3">
+                        <div className="w-full h-40 bg-slate-200 overflow-hidden relative border border-slate-200">
+                          <img
+                            src={currentImage}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                            referrerPolicy="no-referrer"
+                          />
+                          {isOverridden && (
+                            <span className="absolute top-2 left-2 px-2 py-0.5 bg-brandRed text-brandCream text-[9px] uppercase tracking-wider">
+                              Imagem alterada
+                            </span>
+                          )}
+                        </div>
+
+                        <div>
+                          <span className="block text-xs font-serif text-brandPrussian font-medium leading-tight">
+                            {product.name}
+                          </span>
+                          <span className="block text-[10px] text-brandSoftBlue tracking-wide mt-0.5">
+                            {product.category}
+                          </span>
+                        </div>
+
+                        <input
+                          type="url"
+                          placeholder="URL da nova imagem"
+                          value={currentImage}
+                          onChange={(e) => updateProductImage(product.id, e.target.value)}
+                          className="w-full border border-slate-200 p-2 text-[10px] font-mono text-slate-600 focus:border-brandPrussian bg-white outline-none"
+                        />
+
+                        {isOverridden && (
+                          <button
+                            onClick={() => resetProductImage(product.id)}
+                            className="text-[10px] text-brandRed tracking-wide uppercase hover:underline font-semibold text-left"
+                          >
+                            Restaurar imagem original
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

@@ -13,11 +13,24 @@ import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import ProductDetail from './components/ProductDetail';
 import AdminArea from './components/AdminArea';
+import AdminLogin from './components/AdminLogin';
 import { Product, ViewState, LandingConfig } from './types';
 import { DEFAULT_LANDING_CONFIG } from './constants';
 
+const ADMIN_PASSWORD = 'thi020883';
+const ADMIN_SESSION_KEY = 'traco_pemba_admin_session';
+
 function App() {
   const [view, setView] = useState<ViewState>({ type: 'home' });
+
+  // Sessão de autenticação do painel admin (válida apenas durante a aba aberta)
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
+    } catch (e) {
+      return false;
+    }
+  });
 
   // Estado central de configuração dinâmica do site
   const [landingConfig, setLandingConfig] = useState<LandingConfig>(() => {
@@ -65,6 +78,33 @@ function App() {
     }
   };
 
+  // Valida a senha de acesso ao painel admin
+  const handleAdminLogin = (password: string): boolean => {
+    if (password === ADMIN_PASSWORD) {
+      setIsAdminAuthenticated(true);
+      try {
+        sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+      } catch (e) {
+        // Ignora falha de sessionStorage em ambientes restritos
+      }
+      return true;
+    }
+    return false;
+  };
+
+  // Encerra a sessão admin ao voltar para o site
+  const handleAdminLogout = () => {
+    setIsAdminAuthenticated(false);
+    try {
+      sessionStorage.removeItem(ADMIN_SESSION_KEY);
+    } catch (e) {
+      // Ignora falha de sessionStorage em ambientes restritos
+    }
+    window.history.pushState(null, '', '/');
+    setView({ type: 'home' });
+    window.scrollTo({ top: 0 });
+  };
+
   // Navega para os pontos de ancoragem das seções
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -102,18 +142,26 @@ function App() {
     }
   };
 
-  // Painel admin é exibido sem o header/footer do site
+  // Painel admin é exibido sem o header/footer do site, e exige autenticação por senha
   if (view.type === 'admin') {
+    if (!isAdminAuthenticated) {
+      return (
+        <AdminLogin
+          onLogin={handleAdminLogin}
+          onBack={() => {
+            window.history.pushState(null, '', '/');
+            setView({ type: 'home' });
+          }}
+        />
+      );
+    }
+
     return (
       <AdminArea
         config={landingConfig}
         onSave={handleSaveConfig}
         onReset={handleResetConfig}
-        onBack={() => {
-          window.history.pushState(null, '', '/');
-          setView({ type: 'home' });
-          window.scrollTo({ top: 0 });
-        }}
+        onBack={handleAdminLogout}
       />
     );
   }
@@ -126,10 +174,13 @@ function App() {
         {view.type === 'home' && (
           <>
             <Hero config={landingConfig.hero} />
-            <ProductGrid onProductClick={(p) => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              setView({ type: 'product', product: p });
-            }} />
+            <ProductGrid
+              productImages={landingConfig.productImages}
+              onProductClick={(p) => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setView({ type: 'product', product: p });
+              }}
+            />
             <About config={landingConfig.about} />
             <FAQ items={landingConfig.faqs} />
             <ContactForm />

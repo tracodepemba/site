@@ -297,8 +297,10 @@ export const DEFAULT_LANDING_CONFIG: LandingConfig = {
     title: "O fundamento, na sua forma mais",
     highlightWord: "essencial.",
     subtitle: "Existe uma linguagem mais antiga que a palavra. Não explicamos a Umbanda. Nós a vestimos.",
-    buttonText: "Vista o fundamento"
+    buttonText: "Vista o fundamento",
+    imageUrl: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=2000&q=80"
   },
+  productImages: {},
   bannerSlides: [
     {
       id: "slide1",

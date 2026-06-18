@@ -60,8 +60,11 @@ export interface LandingConfig {
     highlightWord: string;
     subtitle: string;
     buttonText: string;
+    imageUrl: string;
   };
   bannerSlides: BannerSlide[];
+  // Sobrescreve a imagem de um produto pelo seu id (Product.id), sem alterar o catálogo original em constants.ts
+  productImages: Record<string, string>;
   about: {
     title: string;
     paragraph1: string;
