@@ -70,12 +70,15 @@ export interface LandingConfig {
     paragraph1: string;
     paragraph2: string;
     authorStamp: string;
+    aboutImage?: string;
     section2Badge: string;
     section2Title: string;
     section2Text: string;
+    section2Image?: string;
     section3Badge: string;
     section3Title: string;
     section3Text: string;
+    section3Image?: string;
   };
   faqs: FAQItem[];
 }
