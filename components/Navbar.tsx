@@ -46,14 +46,15 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
           </div>
 
           {/* Ações à direita */}
-          <div className="flex items-center gap-6 z-50 relative text-brandPrussian">
-            <a
-              href="https://umapenca.com/pemba/"
-              onClick={(e) => handleLinkClick(e, 'products')}
-              className="hidden md:inline-flex px-5 py-2 bg-brandRed text-brandCream text-[10px] uppercase tracking-[0.18em] font-semibold"
-            >
-              Vista o Fundamento
-            </a>
+         <div className="flex items-center gap-6 z-50 relative text-brandPrussian">
+  
+    href="https://umapenca.com/pemba/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hidden md:inline-flex px-5 py-2 bg-brandRed text-brandCream text-[10px] uppercase tracking-[0.18em] font-semibold"
+  >
+    Vista o Fundamento
+  </a>
 
             {/* Toggle do menu mobile */}
             <button
