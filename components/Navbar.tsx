@@ -31,7 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
             className="z-50 relative focus:outline-none block"
           >
             <img
-    src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781784332/TdP_type_noslogan_z6wirk.png"
+    src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781784327/tipo_logo_krjbzp.svg"
     alt="Traço de Pemba"
     className="h-10 md:h-12 w-auto object-contain"
   />
