@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
     <>
       <nav className="sticky top-0 bg-white/95 backdrop-blur-sm py-4 border-b border-brandSoftBlue/10 z-50">
         <div className="max-w-[1800px] mx-auto px-8 flex items-center justify-between">
-         https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781784332/TdP_type_noslogan_z6wirk.png
+         
           <a
             href="#"
             onClick={(e) => {
@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
             className="z-50 relative focus:outline-none block"
           >
             <span className="font-serif text-lg md:text-xl tracking-[0.15em] uppercase text-brandPrussian">
-              Traço de Pemba
+              img src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781784332/TdP_type_noslogan_z6wirk.png"
             </span>
           </a>
 
