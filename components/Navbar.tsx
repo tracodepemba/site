@@ -22,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
       <nav className="sticky top-0 bg-white/95 backdrop-blur-sm py-4 border-b border-brandSoftBlue/10 z-50">
         <div className="max-w-[1800px] mx-auto px-8 flex items-center justify-between">
           {/* Logo — wordmark tipográfico enquanto o arquivo de logo definitivo não é adicionado em /public */}
-          
+          <a
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -31,12 +31,11 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
             }}
             className="z-50 relative focus:outline-none block"
           >
-  <img
-    src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781784327/tipo_logo_krjbzp.svg"
-    alt="Traço de Pemba"
-    className="h-10 md:h-12 w-auto object-contain"
-  />
-</a>
+            <img
+              src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781784327/tipo_logo_krjbzp.svg"
+              alt="Traço de Pemba"
+              className="h-10 md:h-12 w-auto object-contain"
+            />
           </a>
 
           {/* Links centrais - Desktop */}
@@ -49,7 +48,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
 
           {/* Ações à direita */}
           <div className="flex items-center gap-6 z-50 relative text-brandPrussian">
-            
+            <a
               href="https://umapenca.com/pemba/"
               target="_blank"
               rel="noopener noreferrer"
