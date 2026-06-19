@@ -11,8 +11,7 @@ export interface Product {
   tagline: string;
   description: string;
   longDescription?: string;
-  price: number;
-  category: 'Orixás' | 'Guias & Entidades' | 'Saudação' | 'Fundamento';
+  category: string;
   imageUrl: string;
   gallery?: string[];
   features: string[];
@@ -63,8 +62,8 @@ export interface LandingConfig {
     imageUrl: string;
   };
   bannerSlides: BannerSlide[];
-  // Sobrescreve a imagem de um produto pelo seu id (Product.id), sem alterar o catálogo original em constants.ts
-  productImages: Record<string, string>;
+  // Catálogo de produtos completo, editável via painel admin
+  products: Product[];
   about: {
     title: string;
     paragraph1: string;

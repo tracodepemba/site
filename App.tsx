@@ -175,7 +175,7 @@ function App() {
           <>
             <Hero config={landingConfig.hero} />
             <ProductGrid
-              productImages={landingConfig.productImages}
+              products={landingConfig.products}
               onProductClick={(p) => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 setView({ type: 'product', product: p });

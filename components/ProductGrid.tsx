@@ -4,30 +4,27 @@
 */
 
 import React, { useState, useMemo } from 'react';
-import { PRODUCTS } from '../constants';
 import { Product } from '../types';
 import ProductCard from './ProductCard';
 
-const categories = ['Todas', 'Orixás', 'Guias & Entidades', 'Saudação', 'Fundamento'];
-
 interface ProductGridProps {
+  products: Product[];
   onProductClick: (product: Product) => void;
-  productImages?: Record<string, string>;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ onProductClick, productImages = {} }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) => {
   const [activeCategory, setActiveCategory] = useState('Todas');
 
-  const productsWithOverrides = useMemo(() => {
-    return PRODUCTS.map(p =>
-      productImages[p.id] ? { ...p, imageUrl: productImages[p.id] } : p
-    );
-  }, [productImages]);
+  // Categorias geradas dinamicamente a partir dos produtos cadastrados no painel
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(products.map(p => p.category).filter(Boolean)));
+    return ['Todas', ...unique];
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
-    if (activeCategory === 'Todas') return productsWithOverrides;
-    return productsWithOverrides.filter(p => p.category === activeCategory);
-  }, [activeCategory, productsWithOverrides]);
+    if (activeCategory === 'Todas') return products;
+    return products.filter(p => p.category === activeCategory);
+  }, [activeCategory, products]);
 
   return (
     <section id="products" className="py-20 md:py-28 px-6 md:px-12 bg-white">
@@ -49,29 +46,37 @@ const ProductGrid: React.FC<ProductGridProps> = ({ onProductClick, productImages
             entendemos sua força. Só então chegamos ao design.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-8 pt-8 mt-8 border-t border-brandSoftBlue/20 w-full max-w-2xl">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`text-[10px] uppercase tracking-[0.25em] pb-1.5 border-b-2 transition-all duration-300 ${
-                  activeCategory === cat
-                    ? 'border-brandRed text-brandRed font-semibold'
-                    : 'border-transparent text-brandSoftBlue hover:text-brandPrussian'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+          {categories.length > 1 && (
+            <div className="flex flex-wrap justify-center gap-8 pt-8 mt-8 border-t border-brandSoftBlue/20 w-full max-w-2xl">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`text-[10px] uppercase tracking-[0.25em] pb-1.5 border-b-2 transition-all duration-300 ${
+                    activeCategory === cat
+                      ? 'border-brandRed text-brandRed font-semibold'
+                      : 'border-transparent text-brandSoftBlue hover:text-brandPrussian'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Grade de produtos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-16">
-          {filteredProducts.map(product => (
-            <ProductCard key={product.id} product={product} onClick={onProductClick} />
-          ))}
-        </div>
+        {filteredProducts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-16">
+            {filteredProducts.map(product => (
+              <ProductCard key={product.id} product={product} onClick={onProductClick} />
+            ))}
+          </div>
+        ) : (
+          <div className="py-16 text-center text-brandSoftBlue text-sm font-light tracking-wide">
+            Nenhuma peça cadastrada ainda nesta categoria.
+          </div>
+        )}
 
       </div>
     </section>

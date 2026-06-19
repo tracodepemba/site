@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { LandingConfig, BannerSlide, FAQItem } from '../types';
-import { PRODUCTS } from '../constants';
+import { LandingConfig, FAQItem, Product } from '../types';
+import { SUGGESTED_CATEGORIES } from '../constants';
 
 interface AdminAreaProps {
   config: LandingConfig;
@@ -9,13 +9,29 @@ interface AdminAreaProps {
   onBack: () => void;
 }
 
+const emptyProduct = (): Product => ({
+  id: 'prod_' + Date.now(),
+  name: '',
+  tagline: '',
+  description: '',
+  longDescription: '',
+  category: '',
+  imageUrl: '',
+  features: []
+});
+
 const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }) => {
-  const [activeTab, setActiveTab] = useState<'hero' | 'images' | 'about' | 'faq'>('hero');
+  const [activeTab, setActiveTab] = useState<'hero' | 'products' | 'images' | 'about' | 'faq'>('hero');
   const [tempConfig, setTempConfig] = useState<LandingConfig>(JSON.parse(JSON.stringify(config)));
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   const [newFaqQuestion, setNewFaqQuestion] = useState('');
   const [newFaqAnswer, setNewFaqAnswer] = useState('');
+
+  // Controla qual produto está sendo editado (id) e o rascunho de edição
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
+  const [productDraft, setProductDraft] = useState<Product | null>(null);
+  const [featuresDraftText, setFeaturesDraftText] = useState('');
 
   const handleSave = () => {
     onSave(tempConfig);
@@ -24,7 +40,7 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
   };
 
   const handleReset = () => {
-    if (window.confirm('Tem certeza de que deseja restaurar todos os textos para o padrão original da marca? Todas as alterações atuais serão perdidas.')) {
+    if (window.confirm('Tem certeza de que deseja restaurar todos os textos e produtos para o padrão original da marca? Todas as alterações atuais serão perdidas.')) {
       onReset();
       onBack();
     }
@@ -77,26 +93,68 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
     });
   };
 
-  // Sobrescreve a imagem de um produto específico pelo seu id
-  const updateProductImage = (productId: string, url: string) => {
-    setTempConfig({
-      ...tempConfig,
-      productImages: { ...(tempConfig.productImages || {}), [productId]: url }
-    });
+  // ---- CRUD de produtos ----
+
+  const existingCategories = Array.from(
+    new Set([...SUGGESTED_CATEGORIES, ...tempConfig.products.map(p => p.category).filter(Boolean)])
+  );
+
+  const startNewProduct = () => {
+    const draft = emptyProduct();
+    setEditingProductId(draft.id);
+    setProductDraft(draft);
+    setFeaturesDraftText('');
   };
 
-  // Remove a sobrescrita, voltando a usar a imagem original do produto
-  const resetProductImage = (productId: string) => {
-    const updated = { ...(tempConfig.productImages || {}) };
-    delete updated[productId];
-    setTempConfig({
-      ...tempConfig,
-      productImages: updated
-    });
+  const startEditProduct = (product: Product) => {
+    setEditingProductId(product.id);
+    setProductDraft({ ...product });
+    setFeaturesDraftText(product.features.join('\n'));
   };
 
-  const getProductImage = (productId: string, fallback: string) => {
-    return (tempConfig.productImages && tempConfig.productImages[productId]) || fallback;
+  const cancelEditProduct = () => {
+    setEditingProductId(null);
+    setProductDraft(null);
+    setFeaturesDraftText('');
+  };
+
+  const updateProductDraftField = (field: keyof Product, value: string) => {
+    if (!productDraft) return;
+    setProductDraft({ ...productDraft, [field]: value });
+  };
+
+  const saveProductDraft = () => {
+    if (!productDraft) return;
+    if (!productDraft.name.trim()) {
+      window.alert('O produto precisa ter um nome.');
+      return;
+    }
+
+    const finalProduct: Product = {
+      ...productDraft,
+      features: featuresDraftText
+        .split('\n')
+        .map(f => f.trim())
+        .filter(Boolean)
+    };
+
+    const exists = tempConfig.products.some(p => p.id === finalProduct.id);
+    const updatedProducts = exists
+      ? tempConfig.products.map(p => p.id === finalProduct.id ? finalProduct : p)
+      : [...tempConfig.products, finalProduct];
+
+    setTempConfig({ ...tempConfig, products: updatedProducts });
+    cancelEditProduct();
+  };
+
+  const deleteProduct = (id: string) => {
+    if (window.confirm('Tem certeza que deseja excluir esta peça? Esta ação não pode ser desfeita após salvar.')) {
+      setTempConfig({
+        ...tempConfig,
+        products: tempConfig.products.filter(p => p.id !== id)
+      });
+      if (editingProductId === id) cancelEditProduct();
+    }
   };
 
   return (
@@ -113,7 +171,7 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
               Gerenciar Conteúdo do Site
             </h1>
             <p className="text-xs text-brandCream/70 font-light mt-1.5 tracking-wide">
-              Edite os textos das seções principais da landing page.
+              Edite os textos, imagens e produtos das seções principais da landing page.
             </p>
           </div>
 
@@ -142,6 +200,14 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
               }`}
             >
               Capa / Hero
+            </button>
+            <button
+              onClick={() => setActiveTab('products')}
+              className={`py-2 px-4 text-xs font-semibold tracking-wider uppercase transition-colors rounded-none ${
+                activeTab === 'products' ? 'border-b-2 border-brandPrussian text-brandPrussian' : 'text-slate-500 hover:text-brandPrussian'
+              }`}
+            >
+              Produtos
             </button>
             <button
               onClick={() => setActiveTab('images')}
@@ -192,6 +258,7 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
 
         <div className="p-8 md:p-10">
 
+          {/* ABA: HERO */}
           {activeTab === 'hero' && (
             <div className="space-y-6 max-w-3xl">
               <h2 className="text-lg font-serif text-brandPrussian mb-4 pb-2 border-b border-slate-100">
@@ -253,6 +320,206 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
             </div>
           )}
 
+          {/* ABA: PRODUTOS (CRUD completo) */}
+          {activeTab === 'products' && (
+            <div className="space-y-8 max-w-5xl">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h2 className="text-lg font-serif text-brandPrussian mb-1">
+                    Gerenciar Produtos
+                  </h2>
+                  <p className="text-xs text-slate-500 font-light max-w-xl leading-relaxed">
+                    Crie, edite ou exclua qualquer peça da coleção. As alterações só valem no site após clicar em "Salvar Alterações".
+                  </p>
+                </div>
+                {!productDraft && (
+                  <button
+                    onClick={startNewProduct}
+                    className="py-2.5 px-6 bg-brandPrussian text-brandCream hover:bg-slate-800 text-xs font-semibold uppercase tracking-wider transition-colors shrink-0"
+                  >
+                    + Nova Peça
+                  </button>
+                )}
+              </div>
+
+              {/* Formulário de criação/edição */}
+              {productDraft && (
+                <div className="border-2 border-brandPrussian/20 bg-slate-50/70 p-6 md:p-8 space-y-5">
+                  <h3 className="text-sm font-bold text-brandPrussian uppercase tracking-wider mb-2">
+                    {tempConfig.products.some(p => p.id === productDraft.id) ? 'Editando Peça' : 'Nova Peça'}
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-brandPrussian">Nome do Produto</label>
+                      <input
+                        type="text"
+                        value={productDraft.name}
+                        onChange={(e) => updateProductDraftField('name', e.target.value)}
+                        placeholder="Ex: Camiseta Ogum Yê"
+                        className="border border-slate-200 p-3 text-xs tracking-wide focus:border-brandPrussian outline-none transition-colors bg-white"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-brandPrussian">Categoria</label>
+                      <input
+                        type="text"
+                        list="category-suggestions"
+                        value={productDraft.category}
+                        onChange={(e) => updateProductDraftField('category', e.target.value)}
+                        placeholder="Ex: Orixás (ou crie uma nova)"
+                        className="border border-slate-200 p-3 text-xs tracking-wide focus:border-brandPrussian outline-none transition-colors bg-white"
+                      />
+                      <datalist id="category-suggestions">
+                        {existingCategories.map(cat => (
+                          <option key={cat} value={cat} />
+                        ))}
+                      </datalist>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-brandPrussian">Tagline (frase curta de destaque)</label>
+                    <input
+                      type="text"
+                      value={productDraft.tagline}
+                      onChange={(e) => updateProductDraftField('tagline', e.target.value)}
+                      placeholder='Ex: "Antes de qualquer caminho, ele já estava lá."'
+                      className="border border-slate-200 p-3 text-xs tracking-wide focus:border-brandPrussian outline-none transition-colors bg-white"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-brandPrussian">Descrição Curta</label>
+                    <textarea
+                      rows={2}
+                      value={productDraft.description}
+                      onChange={(e) => updateProductDraftField('description', e.target.value)}
+                      placeholder="Descrição breve exibida em listagens"
+                      className="border border-slate-200 p-3 text-xs tracking-wide focus:border-brandPrussian outline-none transition-colors resize-none bg-white"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-brandPrussian">Descrição Completa</label>
+                    <textarea
+                      rows={4}
+                      value={productDraft.longDescription || ''}
+                      onChange={(e) => updateProductDraftField('longDescription', e.target.value)}
+                      placeholder="Texto completo exibido na página do produto"
+                      className="border border-slate-200 p-3 text-xs tracking-wide focus:border-brandPrussian outline-none transition-colors resize-none leading-relaxed bg-white"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-brandPrussian">Características (uma por linha)</label>
+                    <textarea
+                      rows={3}
+                      value={featuresDraftText}
+                      onChange={(e) => setFeaturesDraftText(e.target.value)}
+                      placeholder={'Algodão 100% fio 30.1 penteado\nEstampa serigráfica de alta fixação\nEstampa localizada no peito esquerdo'}
+                      className="border border-slate-200 p-3 text-[11px] tracking-wide focus:border-brandPrussian outline-none transition-colors resize-none leading-relaxed font-mono bg-white"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-brandPrussian">URL da Imagem</label>
+                    <div className="flex flex-col md:flex-row gap-4 items-start">
+                      {productDraft.imageUrl && (
+                        <div className="w-full md:w-32 h-32 bg-slate-200 overflow-hidden border border-slate-200 shrink-0">
+                          <img
+                            src={productDraft.imageUrl}
+                            alt="Pré-visualização"
+                            className="w-full h-full object-cover"
+                            referrerPolicy="no-referrer"
+                          />
+                        </div>
+                      )}
+                      <input
+                        type="url"
+                        value={productDraft.imageUrl}
+                        onChange={(e) => updateProductDraftField('imageUrl', e.target.value)}
+                        placeholder="Cole o link de uma imagem (Cloudinary, Imgur, etc.)"
+                        className="flex-1 border border-slate-200 p-3 text-xs font-mono tracking-wide focus:border-brandPrussian outline-none transition-colors bg-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      onClick={saveProductDraft}
+                      className="py-2.5 px-6 bg-brandRed text-brandCream hover:bg-[#a00f19] text-xs font-semibold uppercase tracking-wider transition-colors"
+                    >
+                      Confirmar Peça
+                    </button>
+                    <button
+                      onClick={cancelEditProduct}
+                      className="py-2.5 px-6 border border-slate-300 hover:bg-slate-100 text-slate-600 text-xs font-semibold uppercase tracking-wider transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Lista de produtos cadastrados */}
+              {!productDraft && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {tempConfig.products.map((product) => (
+                    <div key={product.id} className="border border-slate-200 bg-slate-50/50 p-4 flex flex-col gap-3">
+                      <div className="w-full h-40 bg-slate-200 overflow-hidden border border-slate-200">
+                        {product.imageUrl ? (
+                          <img
+                            src={product.imageUrl}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                            referrerPolicy="no-referrer"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-[10px] text-slate-400 uppercase tracking-wider">
+                            Sem imagem
+                          </div>
+                        )}
+                      </div>
+
+                      <div>
+                        <span className="block text-xs font-serif text-brandPrussian font-medium leading-tight">
+                          {product.name || 'Sem nome'}
+                        </span>
+                        <span className="block text-[10px] text-brandSoftBlue tracking-wide mt-0.5">
+                          {product.category || 'Sem categoria'}
+                        </span>
+                      </div>
+
+                      <div className="flex gap-2 mt-1">
+                        <button
+                          onClick={() => startEditProduct(product)}
+                          className="flex-1 py-2 text-center text-brandPrussian border border-brandPrussian/30 hover:bg-brandPrussian/5 text-[10px] font-bold uppercase tracking-wider transition-colors"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => deleteProduct(product.id)}
+                          className="flex-1 py-2 text-center text-brandRed border border-brandRed/30 hover:bg-brandRed/5 text-[10px] font-bold uppercase tracking-wider transition-colors"
+                        >
+                          Excluir
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+
+                  {tempConfig.products.length === 0 && (
+                    <div className="col-span-full py-16 text-center border border-dashed border-slate-300 text-slate-400 text-xs font-light">
+                      Nenhuma peça cadastrada ainda. Clique em "+ Nova Peça" para começar.
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ABA: IMAGENS (Hero + Sobre) */}
           {activeTab === 'images' && (
             <div className="space-y-10 max-w-5xl">
 
@@ -289,65 +556,9 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
                 </div>
               </div>
 
-              {/* Imagens dos Produtos */}
-              <div className="border-t border-slate-100 pt-8">
-                <h2 className="text-lg font-serif text-brandPrussian mb-4 pb-2 border-b border-slate-100">
-                  Imagens dos Produtos
-                </h2>
-                <p className="text-xs text-slate-500 font-light max-w-2xl leading-relaxed mb-6">
-                  Substitua a imagem de qualquer peça da coleção. A alteração vale tanto para a vitrine quanto para a página do produto.
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {PRODUCTS.map((product) => {
-                    const currentImage = getProductImage(product.id, product.imageUrl);
-                    const isOverridden = Boolean(tempConfig.productImages && tempConfig.productImages[product.id]);
-                    return (
-                      <div key={product.id} className="border border-slate-200 bg-slate-50/50 p-4 flex flex-col gap-3">
-                        <div className="w-full h-40 bg-slate-200 overflow-hidden relative border border-slate-200">
-                          <img
-                            src={currentImage}
-                            alt={product.name}
-                            className="w-full h-full object-cover"
-                            referrerPolicy="no-referrer"
-                          />
-                          {isOverridden && (
-                            <span className="absolute top-2 left-2 px-2 py-0.5 bg-brandRed text-brandCream text-[9px] uppercase tracking-wider">
-                              Imagem alterada
-                            </span>
-                          )}
-                        </div>
-
-                        <div>
-                          <span className="block text-xs font-serif text-brandPrussian font-medium leading-tight">
-                            {product.name}
-                          </span>
-                          <span className="block text-[10px] text-brandSoftBlue tracking-wide mt-0.5">
-                            {product.category}
-                          </span>
-                        </div>
-
-                        <input
-                          type="url"
-                          placeholder="URL da nova imagem"
-                          value={currentImage}
-                          onChange={(e) => updateProductImage(product.id, e.target.value)}
-                          className="w-full border border-slate-200 p-2 text-[10px] font-mono text-slate-600 focus:border-brandPrussian bg-white outline-none"
-                        />
-
-                        {isOverridden && (
-                          <button
-                            onClick={() => resetProductImage(product.id)}
-                            className="text-[10px] text-brandRed tracking-wide uppercase hover:underline font-semibold text-left"
-                          >
-                            Restaurar imagem original
-                          </button>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <p className="text-xs text-slate-500 font-light max-w-2xl leading-relaxed border-t border-slate-100 pt-6">
+                As imagens dos produtos agora são editadas diretamente na aba <strong>"Produtos"</strong>, junto com o restante das informações de cada peça.
+              </p>
 
               {/* Imagens da Seção Sobre */}
               <div className="border-t border-slate-100 pt-8">
@@ -450,6 +661,7 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
             </div>
           )}
 
+          {/* ABA: SOBRE */}
           {activeTab === 'about' && (
             <div className="space-y-8 max-w-3xl">
               <div>
@@ -576,6 +788,7 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack }
             </div>
           )}
 
+          {/* ABA: FAQ */}
           {activeTab === 'faq' && (
             <div className="space-y-8">
               <div>

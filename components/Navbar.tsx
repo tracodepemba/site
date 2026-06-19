@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
     <>
       <nav className="sticky top-0 bg-white/95 backdrop-blur-sm py-4 border-b border-brandSoftBlue/10 z-50">
         <div className="max-w-[1800px] mx-auto px-8 flex items-center justify-between">
-          {/* Logo — wordmark tipográfico enquanto o arquivo de logo definitivo não é adicionado em /public */}
+          {/* Logo */}
           <a
             href="#"
             onClick={(e) => {

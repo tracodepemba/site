@@ -33,8 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
 
       <div className="text-center">
         <h3 className="text-sm md:text-base font-serif font-medium text-brandPrussian mb-1 group-hover:text-brandRed transition-colors">{product.name}</h3>
-        <p className="text-[10px] font-light text-brandSoftBlue mb-1 tracking-wide">{product.category}</p>
-        <span className="text-xs font-semibold text-brandGraphite block">R$ {product.price}</span>
+        <p className="text-[10px] font-light text-brandSoftBlue tracking-wide">{product.category}</p>
       </div>
     </div>
   );

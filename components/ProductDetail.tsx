@@ -53,7 +53,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
           <div className="flex flex-col justify-center max-w-xl">
             <span className="text-[10px] font-semibold text-brandSoftBlue uppercase tracking-[0.2em] mb-2">{product.category}</span>
             <h1 className="text-2xl md:text-3xl font-serif text-brandPrussian mb-4">{product.name}</h1>
-            <span className="text-lg font-light text-brandGraphite mb-6 block">R$ {product.price}</span>
 
             <p className="text-xs md:text-sm text-brandGraphite font-light tracking-wide leading-relaxed mb-6 border-b border-brandSoftBlue/20 pb-6">
               {product.longDescription || product.description}
@@ -88,17 +87,19 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
                 Consultar via WhatsApp
               </a>
 
-              <div className="mt-8">
-                <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brandPrussian mb-3">Detalhes da Peça</span>
-                <ul className="space-y-2 text-xs text-brandGraphite font-light tracking-wide">
-                  {product.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center gap-3">
-                      <span className="w-1 h-1 bg-brandRed rounded-full mb-0.5"></span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {product.features.length > 0 && (
+                <div className="mt-8">
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brandPrussian mb-3">Detalhes da Peça</span>
+                  <ul className="space-y-2 text-xs text-brandGraphite font-light tracking-wide">
+                    {product.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center gap-3">
+                        <span className="w-1 h-1 bg-brandRed rounded-full mb-0.5"></span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               <div className="mt-4">
                 <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brandPrussian mb-3">Não encontrou o que procurava?</span>

@@ -38,10 +38,6 @@ const Footer: React.FC<FooterProps> = ({ onLinkClick }) => {
           <h4 className="font-bold text-brandPrussian mb-4 tracking-[0.2em] text-[10px] uppercase">Coleções</h4>
           <ul className="space-y-2.5 text-xs font-light tracking-wide text-brandGraphite/75">
             <li><a href="#products" onClick={(e) => onLinkClick(e, 'products')} className="hover:text-brandRed transition-colors underline-offset-4 hover:underline">Todas as Peças</a></li>
-            <li><a href="#products" onClick={(e) => onLinkClick(e, 'products')} className="hover:text-brandRed transition-colors underline-offset-4 hover:underline">Linha Orixás</a></li>
-            <li><a href="#products" onClick={(e) => onLinkClick(e, 'products')} className="hover:text-brandRed transition-colors underline-offset-4 hover:underline">Linha Guias &amp; Entidades</a></li>
-            <li><a href="#products" onClick={(e) => onLinkClick(e, 'products')} className="hover:text-brandRed transition-colors underline-offset-4 hover:underline">Linha Saudação</a></li>
-            <li><a href="#products" onClick={(e) => onLinkClick(e, 'products')} className="hover:text-brandRed transition-colors underline-offset-4 hover:underline">Linha Fundamento</a></li>
           </ul>
         </div>
 

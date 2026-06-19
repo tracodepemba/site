@@ -4,234 +4,7 @@
 */
 
 import React from 'react';
-import { Product, JournalArticle, LandingConfig } from './types';
-
-export const PRODUCTS: Product[] = [
-  {
-    id: 'p1',
-    name: 'Camiseta Ogum Yê',
-    tagline: 'Antes de qualquer caminho, ele já estava lá.',
-    description: 'A palavra "Ogum" em escrita rúnica adaptada, atravessada por uma lâmina geométrica em diagonal. Estampa localizada no peito esquerdo.',
-    longDescription: 'Ogum não pede passagem. Ele abre. Esta peça é para quem também abre — caminhos, portas, possibilidades. O traço que corta também protege. Estampa localizada no peito esquerdo, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Orixás',
-    imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa localizada no peito esquerdo']
-  },
-  {
-    id: 'p2',
-    name: 'Camiseta Odoyá',
-    tagline: 'O mar não explica sua profundidade.',
-    description: 'Um círculo quase fechado e duas linhas de onda. Ao lado, "Odoyá" em tipografia serifada fina. Estampa centralizada no peito.',
-    longDescription: 'Iemanjá carrega tudo: o que foi, o que virá, o que nunca se diz. Esta peça é para quem conhece esse silêncio. Estampa centralizada, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Orixás',
-    imageUrl: 'https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa centralizada no peito']
-  },
-  {
-    id: 'p3',
-    name: 'Camiseta Êpa Babá',
-    tagline: 'A cruz que não cai. A luz que não apaga.',
-    description: 'A cruz de Oxalá firmada sobre o monte, irradiando luz em traços finos, dentro de um medalhão. Estampa centralizada no peito.',
-    longDescription: 'Oxalá não precisa se mover para estar em todo lugar. Sua força não grita — ela irradia. Devagar, constante, sem interrupção. Para quem tem o mais velho por pai. Estampa centralizada, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Orixás',
-    imageUrl: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa centralizada no peito']
-  },
-  {
-    id: 'p4',
-    name: 'Camiseta Eparrei Oyá',
-    tagline: 'Ela não avisa que vai chegar.',
-    description: 'Três raios em traço fino e assimétrico, descendo em diagonal. Abaixo, "Eparrei" em cursivo veloz. Estampa centralizada e ampla.',
-    longDescription: 'O vento muda, a temperatura cai, e ela já está lá. Para quem tem Oyá por dentro — e sabe que quando ela passa, nada fica como estava. Estampa centralizada e ampla, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Orixás',
-    imageUrl: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa centralizada e ampla']
-  },
-  {
-    id: 'p5',
-    name: 'Camiseta Zé Pilintra',
-    tagline: 'Ele não se apressa. Ele já chegou.',
-    description: 'Nome em tipografia art déco fina e inclinada. Um chapéu de aba larga em dois traços geométricos. Estampa localizada no peito esquerdo.',
-    longDescription: 'Zé Pilintra conhece todos os caminhos tortos e sabe que o mais curto nem sempre é o mais certo. Para quem tem jogo, tem charme, tem fundamento. Estampa localizada no peito esquerdo, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Guias & Entidades',
-    imageUrl: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa localizada no peito esquerdo']
-  },
-  {
-    id: 'p6',
-    name: 'Camiseta Vovó',
-    tagline: 'Ela senta. Acende o cachimbo. E já sabe.',
-    description: 'Um cachimbo em traço único e contínuo. Ao lado, "Vovó" em tipo serifado delicado. Estampa localizada no peito esquerdo.',
-    longDescription: 'Vovó Maria Conga carrega a sabedoria que só vem de quem viveu, sofreu e ainda assim escolheu curar. Estampa localizada no peito esquerdo, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Guias & Entidades',
-    imageUrl: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa localizada no peito esquerdo']
-  },
-  {
-    id: 'p7',
-    name: 'Camiseta Pena Branca',
-    tagline: 'O leve e o firme. O que voa e o que finca.',
-    description: 'Uma pena em traço único, vertical e levíssimo. Abaixo, "Caboclo" em caixa alta espaçada. Estampa centralizada.',
-    longDescription: 'O Caboclo conhece cada trilha, cada planta, cada sinal. Sua pena branca não é ornamento — é proteção. Estampa centralizada, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Guias & Entidades',
-    imageUrl: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa centralizada']
-  },
-  {
-    id: 'p8',
-    name: 'Camiseta Maria Padilha',
-    tagline: 'Ela não pede licença para entrar.',
-    description: 'Uma rosa em três traços. Abaixo, "Maria Padilha" em cursivo elegante e firme. Estampa localizada no peito esquerdo.',
-    longDescription: 'Para quem conhece seu próprio poder — e parou de pedir desculpa por ocupar espaço. Estampa localizada no peito esquerdo, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Guias & Entidades',
-    imageUrl: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa localizada no peito esquerdo']
-  },
-  {
-    id: 'p9',
-    name: 'Camiseta Eparrei Iansã',
-    tagline: 'O vento não pede.',
-    description: '"EPARREI" em display bold branco fragmentado, com "Iansã" em cursivo dourado cortando por baixo. Fundo vermelho.',
-    longDescription: 'A saudação de Oyá em vermelho e dourado, do jeito que ela merece ser anunciada. Para quem não teme a transformação. Estampa no peito, em algodão 100% fio 30.1 penteado.',
-    price: 159,
-    category: 'Saudação',
-    imageUrl: 'https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Linha Saudação']
-  },
-  {
-    id: 'p10',
-    name: 'Camiseta Salve Seu Zé',
-    tagline: 'O chapéu que todo mundo reconhece.',
-    description: 'Chapéu panamá irradiando luz, com "Salve Seu Zé!" em cursivo branco e contorno preto. Fundo vermelho.',
-    longDescription: 'Uma peça de celebração para os filhos que já foram atendidos por ele, que já ouviram o conselho que ninguém mais daria. Estampa no peito, em algodão 100% fio 30.1 penteado.',
-    price: 159,
-    category: 'Saudação',
-    imageUrl: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Linha Saudação']
-  },
-  {
-    id: 'p11',
-    name: 'Camiseta Odoyá Yemanjá',
-    tagline: 'O mar não tem pressa. Nunca teve.',
-    description: '"ODOYÁ" em display serifado azul-claro com "yemanjá" em cursivo azul-marinho sobreposto. Fundo preto.',
-    longDescription: 'A saudação que cabe num sussurro e num grito ao mesmo tempo. Para os filhos de Yemanjá que carregam essa profundidade como herança. Estampa no peito, em algodão 100% fio 30.1 penteado.',
-    price: 159,
-    category: 'Saudação',
-    imageUrl: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Linha Saudação']
-  },
-  {
-    id: 'p12',
-    name: 'Camiseta Patakori Ogum',
-    tagline: 'Antes de qualquer caminho, uma lâmina.',
-    description: '"PATAKORI" em display bold azul-escuro, com "Ogum" em cursivo vermelho circulando por cima. Fundo preto.',
-    longDescription: 'O reconhecimento de quem viu o trabalho e entende o que ele custa. Para quem foi abençoado pela lâmina e carrega essa bênção com responsabilidade. Estampa no peito, em algodão 100% fio 30.1 penteado.',
-    price: 159,
-    category: 'Saudação',
-    imageUrl: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Linha Saudação']
-  },
-  {
-    id: 'p13',
-    name: 'Camiseta Ponto de Abertura',
-    tagline: 'Antes de qualquer coisa, o ponto é riscado.',
-    description: 'O ponto riscado de abertura de gira, em sua forma original, em giz branco sobre preto. Estampa centralizada e grande.',
-    longDescription: 'Para quem sabe o que está vendo, é reconhecimento imediato. Para quem não sabe, é geometria com força que não precisa ser nomeada. Estampa centralizada, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Fundamento',
-    imageUrl: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa centralizada']
-  },
-  {
-    id: 'p14',
-    name: 'Camiseta Firmeza',
-    tagline: 'Firmeza não é rigidez. É raiz.',
-    description: '"FIRMEZA" em caixa alta, tipografia bastão espaçada, com uma linha horizontal fina abaixo. Estampa centralizada.',
-    longDescription: 'No terreiro, firmar é mais do que fixar. É confirmar: estou aqui, estou presente, estou protegido. Estampa centralizada, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Fundamento',
-    imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa centralizada']
-  },
-  {
-    id: 'p15',
-    name: 'Camiseta Cruzeiro',
-    tagline: 'A encruzilhada não é dúvida. É escolha.',
-    description: 'Uma cruz de Exu em traço geométrico limpo, com um ponto central e quatro pontos menores ao redor. Estampa centralizada e média.',
-    longDescription: 'Para quem não foge das encruzilhadas e sabe que Exu está em toda esquina — e que isso é proteção, não ameaça. Estampa centralizada, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Fundamento',
-    imageUrl: 'https://images.unsplash.com/photo-1507908708419-7799010c51c6?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1507908708419-7799010c51c6?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa centralizada']
-  },
-  {
-    id: 'p16',
-    name: 'Camiseta Axé',
-    tagline: 'Axé não é uma despedida. É uma confirmação.',
-    description: 'A palavra "AXÉ" em três tipografias sobrepostas em transparência: blackletter, serifado romano e bastão moderno. Estampa grande, ocupando o peito.',
-    longDescription: 'Três tempos. Uma palavra. Porque o axé sempre foi maior do que qualquer forma consegue conter sozinha. Estampa ampla, em algodão 100% fio 30.1 penteado.',
-    price: 149,
-    category: 'Fundamento',
-    imageUrl: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=1000',
-    gallery: [
-      'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=1000'
-    ],
-    features: ['Algodão 100% fio 30.1 penteado', 'Estampa serigráfica de alta fixação', 'Estampa ampla']
-  }
-];
+import { JournalArticle, LandingConfig } from './types';
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
@@ -291,6 +64,10 @@ export const BRAND_NAME = 'Traço de Pemba';
 export const PRIMARY_COLOR = 'brandPrussian';
 export const ACCENT_COLOR = 'brandRed';
 
+// Categorias sugeridas para o autocomplete no painel admin.
+// O admin pode digitar qualquer categoria nova — esta lista é só um ponto de partida.
+export const SUGGESTED_CATEGORIES = ['Orixás', 'Guias & Entidades', 'Saudação', 'Fundamento'];
+
 export const DEFAULT_LANDING_CONFIG: LandingConfig = {
   hero: {
     badge: "Minimalismo Sagrado",
@@ -300,7 +77,7 @@ export const DEFAULT_LANDING_CONFIG: LandingConfig = {
     buttonText: "Vista o fundamento",
     imageUrl: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=2000&q=80"
   },
-  productImages: {},
+  products: [],
   bannerSlides: [
     {
       id: "slide1",
