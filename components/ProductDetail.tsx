@@ -11,10 +11,6 @@ interface ProductDetailProps {
   onBack: () => void;
 }
 
-// IMPORTANTE: substitua pelo número real de WhatsApp da marca antes de publicar.
-// Formato: código do país + DDD + número, sem espaços ou símbolos. Ex: 5511987654321
-const WHATSAPP_NUMBER = '5500000000000';
-
 const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
@@ -78,13 +74,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
             </div>
 
             <div className="flex flex-col gap-4">
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Olá! Gostaria de consultar a disponibilidade da peça "${product.name}"${selectedSize ? ` no tamanho ${selectedSize}` : ''}.`)}`}
+              
+                href="https://umapenca.com/pemba/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-4 bg-brandRed text-brandCream text-center uppercase tracking-[0.18em] text-[11px] font-semibold hover:bg-[#a00f19] transition-colors inline-block"
               >
-                Consultar via WhatsApp
+                Variações e Tamanhos
               </a>
 
               {product.features.length > 0 && (
