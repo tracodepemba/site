@@ -81,24 +81,11 @@ const Hero: React.FC<HeroProps> = ({ config, onShopClick }) => {
         </div>
 
         {/* Símbolo decorativo */}
-        <img
-          src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781870693/icon_light_pyprgn.svg"
-          alt=""
-          aria-hidden="true"
-          className="
-            hidden lg:block
-            absolute
-            right-[4%]
-            top-1/2
-            -translate-y-1/2
-            w-[380px]
-            xl:w-[460px]
-            opacity-[0.5]
-            mix-blend-screen
-            pointer-events-none
-            select-none
-          "
-        />
+       <img
+  src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781870693/icon_light_pyprgn.svg"
+  alt=""
+  className="absolute right-8 top-1/2 -translate-y-1/2 w-96 z-20 opacity-100"
+/>
 
       </div>
     </section>
