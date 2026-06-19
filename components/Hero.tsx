@@ -93,7 +93,7 @@ const Hero: React.FC<HeroProps> = ({ config, onShopClick }) => {
             -translate-y-1/2
             w-[380px]
             xl:w-[460px]
-            opacity-[0.12]
+            opacity-[0.5]
             mix-blend-screen
             pointer-events-none
             select-none
