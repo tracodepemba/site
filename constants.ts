@@ -144,7 +144,7 @@ export const DEFAULT_LANDING_CONFIG: LandingConfig = {
     {
       id: "faq7",
       question: "Como entro em contato?",
-      answer: "Por e-mail em contato@tracodepemba.com.br ou pelo WhatsApp, de segunda a sexta, das 9h às 18h. Respondemos com atenção — sem pressa, sem automação."
+      answer: "Por e-mail em tracodepemba@gmail.com , de segunda a sexta, das 9h às 18h. Respondemos com atenção — sem pressa, sem automação."
     }
   ]
 };
