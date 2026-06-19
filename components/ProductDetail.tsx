@@ -73,15 +73,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-              
-                href="https://umapenca.com/pemba/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-4 bg-brandRed text-brandCream text-center uppercase tracking-[0.18em] text-[11px] font-semibold hover:bg-[#a00f19] transition-colors inline-block"
-              >
-                Variações e Tamanhos
-              </a>
+           <div className="flex flex-col gap-4">
+  <a
+    href="https://umapenca.com/pemba/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-full py-4 bg-brandRed text-brandCream text-center uppercase tracking-[0.18em] text-[11px] font-semibold hover:bg-[#a00f19] transition-colors inline-block"
+  >
+    Variações e Tamanhos
+  </a>
 
               {product.features.length > 0 && (
                 <div className="mt-8">
