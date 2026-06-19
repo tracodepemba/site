@@ -8,11 +8,11 @@ import { Product } from '../types';
 import ProductCard from './ProductCard';
 
 interface ProductGridProps {
-  products: Product[];
+  products?: Product[];
   onProductClick: (product: Product) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ products = [], onProductClick }) => {
   const [activeCategory, setActiveCategory] = useState('Todas');
 
   // Categorias geradas dinamicamente a partir dos produtos cadastrados no painel

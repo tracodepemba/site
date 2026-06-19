@@ -32,11 +32,25 @@ function App() {
     }
   });
 
-  // Estado central de configuração dinâmica do site
+  // Estado central de configuração dinâmica do site.
+  // Faz merge com o padrão para garantir que campos novos (ex: "products")
+  // sempre existam, mesmo que o navegador tenha uma config antiga salva
+  // de uma versão anterior do site.
   const [landingConfig, setLandingConfig] = useState<LandingConfig>(() => {
     try {
       const saved = localStorage.getItem('traco_pemba_landing_config');
-      return saved ? JSON.parse(saved) : DEFAULT_LANDING_CONFIG;
+      if (!saved) return DEFAULT_LANDING_CONFIG;
+
+      const parsed = JSON.parse(saved);
+      return {
+        ...DEFAULT_LANDING_CONFIG,
+        ...parsed,
+        hero: { ...DEFAULT_LANDING_CONFIG.hero, ...(parsed.hero || {}) },
+        about: { ...DEFAULT_LANDING_CONFIG.about, ...(parsed.about || {}) },
+        products: Array.isArray(parsed.products) ? parsed.products : DEFAULT_LANDING_CONFIG.products,
+        bannerSlides: Array.isArray(parsed.bannerSlides) ? parsed.bannerSlides : DEFAULT_LANDING_CONFIG.bannerSlides,
+        faqs: Array.isArray(parsed.faqs) ? parsed.faqs : DEFAULT_LANDING_CONFIG.faqs,
+      };
     } catch (e) {
       return DEFAULT_LANDING_CONFIG;
     }
