@@ -15,28 +15,28 @@ const About: React.FC<AboutProps> = ({ config }) => {
     <section id="about" className="bg-white">
 
       {/* Introdução / História */}
-      <div className="py-24 px-6 md:px-12 max-w-[1800px] mx-auto flex flex-col md:flex-row items-start gap-16 md:gap-32">
-        <div className="md:w-1/3">
-          <h2 className="text-2xl md:text-3xl font-serif text-brandPrussian leading-tight">
+      <div className="py-24 px-6 md:px-12 max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-2 items-start gap-16 md:gap-32">
+        <div className="flex flex-col">
+          <h2 className="text-2xl md:text-3xl font-serif text-brandPrussian leading-tight mb-8">
             {config?.title || "O traço que nos une."}
           </h2>
-        </div>
-        <div className="md:w-2/3 max-w-2xl">
           <p className="text-xs md:text-sm text-brandGraphite font-light tracking-wide leading-relaxed mb-6">
             {config?.paragraph1}
           </p>
           <p className="text-xs md:text-sm text-brandGraphite font-light tracking-wide leading-relaxed mb-8">
             {config?.paragraph2}
           </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brandSoftBlue">
+            {config?.authorStamp}
+          </p>
+        </div>
+        <div>
           <img
             src={config?.aboutImage || "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=1200"}
             alt="Traço de Pemba"
-            className="w-full h-[400px] object-cover grayscale contrast-[0.9] brightness-110 mt-12"
+            className="w-full h-[400px] md:h-[560px] object-cover grayscale contrast-[0.9] brightness-110"
             referrerPolicy="no-referrer"
           />
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brandSoftBlue mt-4">
-            {config?.authorStamp}
-          </p>
         </div>
       </div>
 
