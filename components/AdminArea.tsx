@@ -91,6 +91,19 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack, 
     });
   };
 
+  const moveFAQ = (index: number, direction: 'up' | 'down') => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= tempConfig.faqs.length) return;
+
+    const reordered = [...tempConfig.faqs];
+    [reordered[index], reordered[targetIndex]] = [reordered[targetIndex], reordered[index]];
+
+    setTempConfig({
+      ...tempConfig,
+      faqs: reordered
+    });
+  };
+
   const updateHeroField = (field: keyof LandingConfig['hero'], value: string) => {
     setTempConfig({
       ...tempConfig,
@@ -844,7 +857,7 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack, 
                   Gerenciar FAQ
                 </h2>
                 <p className="text-xs text-slate-500 font-light max-w-2xl leading-relaxed mb-6">
-                  Adicione, remova ou edite as perguntas e respostas exibidas em forma de acordeão.
+                  Adicione, remova, edite ou reordene as perguntas e respostas exibidas em forma de acordeão. Use as setas para mudar a ordem de exibição no site.
                 </p>
 
                 <div className="space-y-6 max-w-3xl">
@@ -854,12 +867,36 @@ const AdminArea: React.FC<AdminAreaProps> = ({ config, onSave, onReset, onBack, 
                         <span className="text-[10px] font-bold tracking-wider uppercase text-slate-400">
                           Pergunta #{index + 1}
                         </span>
-                        <button
-                          onClick={() => removeFAQ(faq.id)}
-                          className="text-[10px] text-brandRed tracking-wide uppercase hover:underline font-semibold"
-                        >
-                          Excluir
-                        </button>
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => moveFAQ(index, 'up')}
+                              disabled={index === 0}
+                              title="Mover para cima"
+                              className="w-6 h-6 flex items-center justify-center text-brandPrussian border border-slate-200 hover:bg-brandPrussian/5 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                              </svg>
+                            </button>
+                            <button
+                              onClick={() => moveFAQ(index, 'down')}
+                              disabled={index === tempConfig.faqs.length - 1}
+                              title="Mover para baixo"
+                              className="w-6 h-6 flex items-center justify-center text-brandPrussian border border-slate-200 hover:bg-brandPrussian/5 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                              </svg>
+                            </button>
+                          </div>
+                          <button
+                            onClick={() => removeFAQ(faq.id)}
+                            className="text-[10px] text-brandRed tracking-wide uppercase hover:underline font-semibold"
+                          >
+                            Excluir
+                          </button>
+                        </div>
                       </div>
 
                       <div className="space-y-3">
