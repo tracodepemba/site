@@ -6,9 +6,10 @@
  *
  * Por que assim: o site é totalmente client-side (sem servidor próprio),
  * então conversamos direto com a API REST do Supabase usando apenas a
- * chave pública "anon". As regras de acesso (Row Level Security) feitas
- * no painel do Supabase é que controlam o que essa chave pode ou não fazer —
- * por isso ela pode ficar exposta no código do navegador com segurança.
+ * chave pública "publishable" (chamada "anon" em projetos mais antigos).
+ * As regras de acesso (Row Level Security) feitas no painel do Supabase
+ * é que controlam o que essa chave pode ou não fazer — por isso ela pode
+ * ficar exposta no código do navegador com segurança.
  *
  * A tabela "site_config" tem uma única linha (id = 'main') com uma coluna
  * "data" do tipo jsonb, que guarda o LandingConfig inteiro.
@@ -17,7 +18,7 @@
 import { LandingConfig } from '../types';
 
 const SUPABASE_URL = 'https://ttrcmuhzhpdbwbwoxnnd.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0cmNtdWh6aHBkYndib3hubmQiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4MTkwMDgzNCwiZXhwIjoyMDk3NDc2ODM0fQ.hnDWRQDFRwikVIwRoKWBY55L29o2ZNf8T85TlFSvlAU';
+const SUPABASE_ANON_KEY = 'sb_publishable_j2C6lO24fi4hhYRk0tqd4g_oLKCuDR7';
 
 const REST_ENDPOINT = `${SUPABASE_URL}/rest/v1/site_config`;
 
