@@ -3,25 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 interface FooterProps {
   onLinkClick: (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ onLinkClick }) => {
-  const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'loading' | 'success'>('idle');
-  const [email, setEmail] = useState('');
-
-  const handleSubscribe = () => {
-    if (!email) return;
-    setSubscribeStatus('loading');
-    setTimeout(() => {
-      setSubscribeStatus('success');
-      setEmail('');
-    }, 1500);
-  };
-
   return (
     <footer className="bg-white pt-24 pb-12 px-6 text-brandGraphite/90 border-t border-brandSoftBlue/15">
       <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
@@ -51,28 +39,12 @@ const Footer: React.FC<FooterProps> = ({ onLinkClick }) => {
           </ul>
         </div>
 
-        <div className="md:col-span-4">
-          <h4 className="font-bold text-brandPrussian mb-4 tracking-[0.2em] text-[10px] uppercase">Novidades</h4>
-          <div className="flex flex-col gap-4">
-            <p className="text-xs font-light tracking-wide text-brandGraphite/75">Fique por dentro dos nossos novos lançamentos.</p>
-            <input
-              type="email"
-              placeholder="seu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={subscribeStatus === 'loading' || subscribeStatus === 'success'}
-              className="bg-transparent border-b border-brandPrussian/30 py-1.5 text-xs font-light tracking-wide outline-none focus:border-brandPrussian transition-colors placeholder-brandGraphite/40 text-brandGraphite disabled:opacity-50"
-            />
-            <button
-              onClick={handleSubscribe}
-              disabled={subscribeStatus !== 'idle' || !email}
-              className="self-start text-[10px] font-semibold uppercase tracking-[0.2em] mt-1 text-brandPrussian hover:text-brandRed disabled:cursor-default disabled:hover:text-brandPrussian/50 disabled:opacity-50 transition-colors"
-            >
-              {subscribeStatus === 'idle' && 'Inscrever-se'}
-              {subscribeStatus === 'loading' && 'Inscrevendo...'}
-              {subscribeStatus === 'success' && 'Inscrito com Sucesso!'}
-            </button>
-          </div>
+        <div className="md:col-span-4 flex items-center justify-start md:justify-end">
+          <img
+            src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781784332/800x800_abkd23.png"
+            alt="Traço de Pemba"
+            className="w-full max-w-[250px] h-auto object-contain"
+          />
         </div>
       </div>
 
