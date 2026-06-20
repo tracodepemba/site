@@ -39,11 +39,11 @@ const Footer: React.FC<FooterProps> = ({ onLinkClick }) => {
           </ul>
         </div>
 
-        <div className="md:col-span-4 flex items-center justify-start md:justify-end">
+        <div className="md:col-span-4 flex justify-start md:justify-end">
           <img
             src="https://res.cloudinary.com/dxkfqbs5r/image/upload/v1781784332/800x800_abkd23.png"
             alt="Traço de Pemba"
-            className="w-full max-w-[250px] h-auto object-contain"
+            className="w-full max-w-[160px] h-auto object-contain"
           />
         </div>
       </div>
