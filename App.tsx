@@ -4,6 +4,7 @@
 */
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductGrid from './components/ProductGrid';
@@ -265,6 +266,7 @@ function App() {
       </main>
 
       <Footer onLinkClick={handleNavClick} />
+      <Analytics />
     </div>
   );
 }
