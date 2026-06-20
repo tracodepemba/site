@@ -55,7 +55,7 @@ const ContactForm: React.FC = () => {
           <div className="space-y-4 pt-8 border-t border-brandSoftBlue/20 text-xs font-light tracking-wide text-brandGraphite/95">
             <div>
               <span className="block font-bold text-[10px] uppercase text-brandPrussian tracking-[0.2em] mb-1">E-mail</span>
-              <a href="mailto:contato@tracodepemba.com.br" className="hover:text-brandRed transition-colors">contato@tracodepemba.com.br</a>
+              <a href="mailto:tracodepemba@gmail.com" className="hover:text-brandRed transition-colors">tracodepemba@gmail.com</a>
             </div>
             <div>
               <span className="block font-bold text-[10px] uppercase text-brandPrussian tracking-[0.2em] mb-1">Atendimento</span>
