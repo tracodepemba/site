@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Redireciona todas as rotas para o index.html, permitindo que o roteamento
+# client-side (ex: /admin) funcione corretamente em recarregamentos de página
+# e acessos diretos via URL.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
