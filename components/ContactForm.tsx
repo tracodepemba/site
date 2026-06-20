@@ -5,6 +5,10 @@
 
 import React, { useState } from 'react';
 
+// Chave pública do Web3Forms — envia os dados do formulário para tracodepemba@gmail.com.
+// Não é uma credencial sensível: é segura para ficar exposta no código do navegador.
+const WEB3FORMS_ACCESS_KEY = '6fbe096b-ae96-40b8-906e-452c161c3efc';
+
 const ContactForm: React.FC = () => {
   const [formState, setFormState] = useState({
     nome: '',
@@ -15,23 +19,57 @@ const ContactForm: React.FC = () => {
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const interesseLabels: Record<string, string> = {
+    encomenda: 'Encomendas Especiais',
+    duvida: 'Fundamento de Estampas',
+    parceria: 'Parcerias e Collabs',
+    outro: 'Outros Assuntos'
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formState.nome || !formState.email || !formState.mensagem) return;
 
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSuccess(true);
-      setFormState({
-        nome: '',
-        email: '',
-        contato: '',
-        mensagem: '',
-        interesse: 'encomenda'
+    setError(false);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `Traço de Pemba — Novo contato (${interesseLabels[formState.interesse] || formState.interesse})`,
+          from_name: formState.nome,
+          email: formState.email,
+          'WhatsApp / Instagram': formState.contato || 'Não informado',
+          Assunto: interesseLabels[formState.interesse] || formState.interesse,
+          Mensagem: formState.mensagem,
+        }),
       });
-    }, 1500);
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSuccess(true);
+        setFormState({
+          nome: '',
+          email: '',
+          contato: '',
+          mensagem: '',
+          interesse: 'encomenda'
+        });
+      } else {
+        setError(true);
+      }
+    } catch (err) {
+      console.error('Falha ao enviar formulário de contato', err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -83,6 +121,14 @@ const ContactForm: React.FC = () => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-8">
+              {error && (
+                <div className="bg-red-50 border-l-4 border-brandRed p-4">
+                  <p className="text-xs font-semibold text-red-800 tracking-wide">
+                    Não foi possível enviar sua mensagem. Tente novamente ou escreva direto para tracodepemba@gmail.com.
+                  </p>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-2">
                   <label htmlFor="nome" className="text-[10px] font-bold uppercase tracking-[0.2em] text-brandPrussian">Seu Nome</label>
